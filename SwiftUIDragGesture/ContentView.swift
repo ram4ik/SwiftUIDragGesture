@@ -9,8 +9,32 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var cardDragState = CGSize.zero
+    
     var body: some View {
-        Text("Hello, World!")
+        ZStack {
+            Card()
+                .offset(y: self.cardDragState.height)
+                .offset(x: self.cardDragState.width)
+                .gesture(DragGesture().onChanged{ value in
+                    self.cardDragState = value.translation}
+                    .onEnded{ value in
+                        self.cardDragState = CGSize.zero})
+                    .animation(.spring())
+                    .frame(width: 300, height: 250, alignment: .center)
+            
+            Card()
+                .offset(y: self.cardDragState.height)
+                .offset(x: self.cardDragState.width)
+                .gesture(DragGesture().onChanged{ value in
+                    self.cardDragState = value.translation}
+                    .onEnded{ value in
+                        self.cardDragState = CGSize.zero})
+                    .animation(.spring())
+                    .frame(width: 300, height: 250, alignment: .center)
+                .rotationEffect(Angle(radians: -0.4))
+                .foregroundColor(Color.yellow)
+        }
     }
 }
 
